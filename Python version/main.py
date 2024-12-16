@@ -16,9 +16,9 @@ while True :
     result = Hands.process (RGBframe)
 
     cv2.circle (frame, (5, 5), 10, (0, 0, 255), cv2.FILLED)
-    cv2.circle (frame, (frame.shape[1] - 5, 5), 10, (0, 0, 255), cv2.FILLED)
-    cv2.circle (frame, (frame.shape[1] - 5, frame.shape[0] - 5), 10, (0, 0, 255), cv2.FILLED)
-    cv2.circle (frame, (5, frame.shape[0] - 5), 10, (0, 0, 255), cv2.FILLED)
+    cv2.circle (frame, (frame.shape[1] - 5, 5), 10, (0, 255, 255), cv2.FILLED)
+    cv2.circle (frame, (frame.shape[1] - 5, frame.shape[0] - 5), 10, (255, 0, 255), cv2.FILLED)
+    cv2.circle (frame, (5, frame.shape[0] - 5), 10, (255, 255, 0), cv2.FILLED)
     
     if result.multi_hand_landmarks :
         # print ("hand found")
