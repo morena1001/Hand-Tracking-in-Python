@@ -4,55 +4,53 @@ import cv2
 import mediapipe as mp
 
 def distance (point1, point2) :
-    print (point1.x)
-    print (math.pow (point1[0] - point2[0], 2))
     return math.sqrt (math.pow (point1[0] - point2[0], 2) + (point1[1] - point2[1], 2))
 
 def is_fist (landmarks) :
     lms = enumerate (landmarks)
     lm = next (lms)
 
-    point_0 = {lm[1].x, lm[1].y}
+    point_0 = [lm[1].x, lm[1].y]
     lm = next (lms)
     lm = next (lms)
 
-    point_2 = {lm[1].x, lm[1].y}
+    point_2 = [lm[1].x, lm[1].y]
     lm = next (lms)
     lm = next (lms)
 
-    point_4 = {lm[1].x, lm[1].y}
+    point_4 = [lm[1].x, lm[1].y]
     lm = next (lms)
 
-    point_5 = {lm[1].x, lm[1].y}
-    lm = next (lms)
-    lm = next (lms)
-    lm = next (lms)
-
-    point_8 = {lm[1].x, lm[1].y}
-    lm = next (lms)
-
-    point_9 = {lm[1].x, lm[1].y}
+    point_5 = [lm[1].x, lm[1].y]
     lm = next (lms)
     lm = next (lms)
     lm = next (lms)
 
-    point_12 = {lm[1].x, lm[1].y}
+    point_8 = [lm[1].x, lm[1].y]
     lm = next (lms)
 
-    point_13 = {lm[1].x, lm[1].y}
-    lm = next (lms)
-    lm = next (lms)
-    lm = next (lms)
-
-    point_16 = {lm[1].x, lm[1].y}
-    lm = next (lms)
-
-    point_17 = {lm[1].x, lm[1].y}
+    point_9 = [lm[1].x, lm[1].y]
     lm = next (lms)
     lm = next (lms)
     lm = next (lms)
 
-    point_20 = {lm[1].x, lm[1].y}
+    point_12 = [lm[1].x, lm[1].y]
+    lm = next (lms)
+
+    point_13 = [lm[1].x, lm[1].y]
+    lm = next (lms)
+    lm = next (lms)
+    lm = next (lms)
+
+    point_16 = [lm[1].x, lm[1].y]
+    lm = next (lms)
+
+    point_17 = [lm[1].x, lm[1].y]
+    lm = next (lms)
+    lm = next (lms)
+    lm = next (lms)
+
+    point_20 = [lm[1].x, lm[1].y]
     
 
     # Check 4 is closer to 17 than 2
