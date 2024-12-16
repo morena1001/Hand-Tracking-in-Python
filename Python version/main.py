@@ -57,8 +57,6 @@ def is_fist (landmarks) :
     dist4_17 = distance (point_4, point_17)
     dist2_17 = distance (point_2, point_17)
 
-    print (dist2_17, dist4_17)
-
     if (dist2_17 < dist4_17) :
         return False
 
@@ -116,7 +114,8 @@ while True :
         for handLm in result.multi_hand_landmarks :
             # print (handLm)
             mpdraw.draw_landmarks (frame, handLm, mphands.HAND_CONNECTIONS)
-            print (is_fist (handLm.landmark))
+            if (is_fist (handLm.landmark)) :
+                print (True)
             for id, lm in enumerate (handLm.landmark) :
                 h, w, _ = frame.shape
                 cx, cy = int (lm.x * w), int (lm.y * h)
