@@ -2,8 +2,21 @@ import cv2
 import mediapipe as mp
 
 def is_fist (landmarks) :
-    for lm in landmarks :
-        print (lm.x, lm.y)
+    # for thumb
+    # "draw" line from id 0 to id 9, 
+    # if id 4 is closer to that "line" than id 2, count it toward a fist
+
+    #for fingers
+
+    test = enumerate (landmarks)
+
+
+    for lm in test :
+        print (lm)
+    # for id, lm in enumerate (landmarks) :
+        
+        
+        # print (lm.x, lm.y)
     
     return True
 
