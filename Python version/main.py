@@ -19,7 +19,8 @@ def is_fist (landmarks) :
     #     print (lm[0], lm[1].x, lm[1].y)
     
     point_0 = {lms[0][1].x, lms[0][1].y}
-    print (point_0)
+    print (lms[0])
+    # print (point_0)
     # check distance between 0 and 4
     
 
