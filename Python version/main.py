@@ -17,7 +17,9 @@ while True :
     if result.multi_hand_landmarks :
         # print ("hand found")
         for handLm in result.multi_hand_landmarks :
-            print (handLm)
+            # print (handLm)
+            for id, landmark in enumerate (handLm.landmark) :
+                pass
 
     # cv2.imshow ("rgbvideo", RGBframe)
     cv2.imshow ("video", frame)
