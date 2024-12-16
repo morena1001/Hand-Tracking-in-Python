@@ -7,16 +7,9 @@ def distance (point1, point2) :
     return math.sqrt (math.pow (point1[0] - point2[0], 2) + (point1[1] - point2[1], 2))
 
 def is_fist (landmarks) :
-    # for thumb
-    # "draw" line from id 0 to id 9, 
-    # if id 4 is closer to that "line" than id 2, count it toward a fist
-
-    #for fingers
-
     lms = enumerate (landmarks)
     lm = next (lms)
 
-    # print (lm[1].x, lm[1].y)
     point_0 = {lm[1].x, lm[1].y}
     lm = next (lms)
     lm = next (lms)
@@ -60,7 +53,40 @@ def is_fist (landmarks) :
     point_20 = {lm[1].x, lm[1].y}
     
 
-    print (point_20)
+    # Check 4 is closer to 17 than 2
+    dist4_17 = distance (point_4, point_17)
+    dist2_17 = distance (point_2, point_17)
+
+    if (dist2_17 < dist4_17) :
+        return False
+
+    # Check that 8 is closer to 0 than 5
+    dist8_0 = distance (point_8, point_0)
+    dist5_0 = distance (point_5, point_0)
+
+    if (dist5_0 < dist8_0) :
+        return False
+
+    # Check that 12 is closer to 0 than 9
+    dist12_0 = distance (point_12, point_0)
+    dist9_0 = distance (point_9, point_0)
+
+    if (dist9_0 < dist12_0) :
+        return False
+
+    # Check that 16 is closer to 0 than 13
+    dist16_0 = distance (point_16, point_0)
+    dist13_0 = distance (point_13, point_0)
+
+    if (dist13_0 < dist16_0) :
+        return False
+
+    # Check that 20 is closer to 0 than 17
+    dist20_0 = distance (point_20, point_0)
+    dist17_0 = distance (point_17, point_0)
+    
+    if (dist17_0 < dist20_0) :
+        return False
     
     return True
 
