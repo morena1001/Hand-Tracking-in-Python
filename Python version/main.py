@@ -1,6 +1,12 @@
 import cv2
 import mediapipe as mp
 
+def is_fist (landmarks) :
+    for lm in landmarks :
+        print (lm.x, lm.y)
+    
+    return True
+
 vid = cv2.VideoCapture (0) # 1 for external webcam
 vid.set(3, 960)
 
@@ -25,7 +31,7 @@ while True :
         for handLm in result.multi_hand_landmarks :
             # print (handLm)
             mpdraw.draw_landmarks (frame, handLm, mphands.HAND_CONNECTIONS)
-            print (enumerate (handLm.landmark))
+            is_fist (handLm.landmark)
             for id, lm in enumerate (handLm.landmark) :
                 h, w, _ = frame.shape
                 cx, cy = int (lm.x * w), int (lm.y * h)
