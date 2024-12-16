@@ -90,6 +90,49 @@ def is_fist (landmarks) :
     
     return True
 
+def translate_point (point) :
+    new_x = point[0] * math.cos (math.pi / 4) - point[1] * math.sin (math.pi / 4)
+    new_y = point[1] * math.cos (math.pi / 4) + point[0] * math.sin (math.pi / 4)
+    
+    print (new_x, new_y)
+
+    return [new_x, new_y]
+
+def check_quad (landmarks) :
+    quads = [0, 0, 0, 0]
+
+    for lm in landmarks :
+        point = translate_point ([lm.x, lm.y])
+
+        print ("WHY")
+
+        if point[0] >= 0 & point[1] <= 0 :
+            quads[3] += 1 # Bottom quadrant
+
+        elif point[0] <= 0 & point[1] >= 0 : 
+            quads[2] += 1 # Top quadrant
+
+        elif point[0] <= 0 & point[1] <= 0 :
+            quads[0] += 1 # Left quadrant
+
+        elif point[0] >= 0 & point[1] >= 0 :
+            quads[1] += 1 # Right quadrant
+
+    most = 0
+    num = 0
+    i = 0
+    for quad in quads :
+        if (quad > num) :
+            num = quad
+            most = i
+        i += 1
+
+    return ("Left" if i == 0 else ("Right" if i == 1 else ("Top" if i == 2 else ("Down" if i == 3 else ""))))
+
+
+
+
+
 vid = cv2.VideoCapture (0) # 1 for external webcam
 vid.set(3, 960)
 
@@ -104,21 +147,30 @@ while True :
     RGBframe = cv2.cvtColor (frame, cv2.COLOR_BGR2RGB)
     result = Hands.process (RGBframe)
 
+    h = math.floor (frame.shape[0] * 0.5)
+    w = math.floor (frame.shape[1] * 0.5)
+
     # cv2.circle (frame, (5, 5), 10, (0, 0, 255), cv2.FILLED)
     # cv2.circle (frame, (frame.shape[1] - 5, 5), 10, (0, 255, 255), cv2.FILLED)
     # cv2.circle (frame, (frame.shape[1] - 5, frame.shape[0] - 5), 10, (255, 0, 255), cv2.FILLED)
     # cv2.circle (frame, (5, frame.shape[0] - 5), 10, (255, 255, 0), cv2.FILLED)
+    cv2.circle (frame, (w, h), 10, (255, 255, 0), cv2.FILLED)
+    cv2.line (frame, (0, 0), (frame.shape[1], frame.shape[0]), (255, 0, 0), 5)
+    cv2.line (frame, (0, frame.shape[0]), (frame.shape[1], 0), (255, 0, 0), 5)
     
     if result.multi_hand_landmarks :
-        # print ("hand found")
         for handLm in result.multi_hand_landmarks :
-            # print (handLm)
             mpdraw.draw_landmarks (frame, handLm, mphands.HAND_CONNECTIONS)
-            if (is_fist (handLm.landmark)) :
-                print (True)
-            for id, lm in enumerate (handLm.landmark) :
-                h, w, _ = frame.shape
-                cx, cy = int (lm.x * w), int (lm.y * h)
+
+            # print (check_quad (handLm.landmark))
+            
+            # if (is_fist (handLm.landmark)) :
+            #     print (True)
+
+
+            # for id, lm in enumerate (handLm.landmark) :
+            #     h, w, _ = frame.shape
+            #     cx, cy = int (lm.x * w), int (lm.y * h)
                 # print (id, cx, cy)
                 # cv2.circle (frame, (cx, cy), 5, (0, 255, 0), cv2.FILLED)
 
