@@ -54,6 +54,7 @@ def is_fist (landmarks) :
     
 
     # Check 4 is closer to 17 than 2
+    print ("WHY")
     dist4_17 = distance (point_4, point_17)
     dist2_17 = distance (point_2, point_17)
 
