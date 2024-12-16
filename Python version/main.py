@@ -1,5 +1,10 @@
+import math
+
 import cv2
 import mediapipe as mp
+
+def distance (point1, point2) :
+    return math.sqrt (math.pow (point1[0] - point2[0], 2) + (point1[1] - point2[1], 2))
 
 def is_fist (landmarks) :
     # for thumb
@@ -8,11 +13,17 @@ def is_fist (landmarks) :
 
     #for fingers
 
-    test = enumerate (landmarks)
+    lms = enumerate (landmarks)
+
+    for lm in lms :
+        print (lm[0], lm[1])
+    
+    # point_0 = {lms[0][1]}
+    # check distance between 0 and 4
+    
 
 
-    for lm in test :
-        print (lm)
+
     # for id, lm in enumerate (landmarks) :
         
         
@@ -51,13 +62,13 @@ while True :
                 # print (id, cx, cy)
                 # cv2.circle (frame, (cx, cy), 5, (0, 255, 0), cv2.FILLED)
 
-                if id == 4 : 
-                    Tx, Ty = cx, cy
-                    cv2.circle (frame, (Tx, Ty), 6, (255, 0, 0), cv2.FILLED)
+                # if id == 4 : 
+                #     Tx, Ty = cx, cy
+                #     cv2.circle (frame, (Tx, Ty), 6, (255, 0, 0), cv2.FILLED)
 
-                if id == 8 : 
-                    cv2.circle (frame, (cx, cy), 6, (255, 0, 0), cv2.FILLED)
-                    cv2.line (frame, (cx, cy), (Tx, Ty), (255, 0, 255), 5)
+                # if id == 8 : 
+                #     cv2.circle (frame, (cx, cy), 6, (255, 0, 0), cv2.FILLED)
+                #     cv2.line (frame, (cx, cy), (Tx, Ty), (255, 0, 255), 5)
 
     # cv2.imshow ("rgbvideo", RGBframe)
     frame = cv2.flip (frame, 1)
