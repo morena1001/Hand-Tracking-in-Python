@@ -23,11 +23,12 @@ while True :
                 h, w, _ = frame.shape
                 cx, cy = int (lm.x * w), int (lm.y * h)
                 print (id, cx, cy)
-                if id == 4 or id == 8 : 
-                    cv2.circle (frame, (cx, cy), 5, (0, 0, 255), cv2.FILLED)
-                    # cv2.line (frame, handLm.landmark (4), handLm.landmark (8), (0, 0, 255))
                 # cv2.circle (frame, (cx, cy), 5, (0, 255, 0), cv2.FILLED)
                 mpdraw.draw_landmarks (frame, handLm, mphands.HAND_CONNECTIONS)
+                
+                if id == 4 or id == 8 : 
+                    Tx, Ty = cx, cy
+                    cv2.circle (frame, (Tx, Ty), 6, (255, 0, 0), cv2.FILLED)
 
     # cv2.imshow ("rgbvideo", RGBframe)
     cv2.imshow ("video", frame)
