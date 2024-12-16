@@ -1,5 +1,5 @@
 import cv2
-import mediapipe
+import mediapipe as mp
 
 vid = cv2.VideoCapture (0) # 1 for external webcam
 vid.set(3, 960)
