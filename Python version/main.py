@@ -23,6 +23,8 @@ while True :
                 h, w, _ = frame.shape
                 cx, cy = int (lm.x * w), int (lm.y * h)
                 print (id, cx, cy)
+                if id == 4 : 
+                    cv2.circle (frame, (cx, cy), 5, (0, 0, 255), cv2.FILLED)
                 # cv2.circle (frame, (cx, cy), 5, (0, 255, 0), cv2.FILLED)
                 mpdraw.draw_landmarks (frame, handLm, mphands.HAND_CONNECTIONS)
 
