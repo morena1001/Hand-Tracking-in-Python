@@ -19,12 +19,12 @@ while True :
         # print ("hand found")
         for handLm in result.multi_hand_landmarks :
             # print (handLm)
+            mpdraw.draw_landmarks (frame, handLm, mphands.HAND_CONNECTIONS)
             for id, lm in enumerate (handLm.landmark) :
                 h, w, _ = frame.shape
                 cx, cy = int (lm.x * w), int (lm.y * h)
                 print (id, cx, cy)
                 # cv2.circle (frame, (cx, cy), 5, (0, 255, 0), cv2.FILLED)
-                mpdraw.draw_landmarks (frame, handLm, mphands.HAND_CONNECTIONS)
 
                 if id == 4 : 
                     Tx, Ty = cx, cy
@@ -35,6 +35,6 @@ while True :
                     cv2.line (frame, (cx, cy), (Tx, Ty), (255, 0, 255), 5)
 
     # cv2.imshow ("rgbvideo", RGBframe)
-    cv2.flip (frame, 1)
+    frame = cv2.flip (frame, 1)
     cv2.imshow ("video", frame)
     cv2.waitKey (1)
