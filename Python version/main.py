@@ -15,20 +15,21 @@ while True :
     RGBframe = cv2.cvtColor (frame, cv2.COLOR_BGR2RGB)
     result = Hands.process (RGBframe)
 
-    cv2.circle (frame, (5, 5), 10, (0, 0, 255), cv2.FILLED)
-    cv2.circle (frame, (frame.shape[1] - 5, 5), 10, (0, 255, 255), cv2.FILLED)
-    cv2.circle (frame, (frame.shape[1] - 5, frame.shape[0] - 5), 10, (255, 0, 255), cv2.FILLED)
-    cv2.circle (frame, (5, frame.shape[0] - 5), 10, (255, 255, 0), cv2.FILLED)
+    # cv2.circle (frame, (5, 5), 10, (0, 0, 255), cv2.FILLED)
+    # cv2.circle (frame, (frame.shape[1] - 5, 5), 10, (0, 255, 255), cv2.FILLED)
+    # cv2.circle (frame, (frame.shape[1] - 5, frame.shape[0] - 5), 10, (255, 0, 255), cv2.FILLED)
+    # cv2.circle (frame, (5, frame.shape[0] - 5), 10, (255, 255, 0), cv2.FILLED)
     
     if result.multi_hand_landmarks :
         # print ("hand found")
         for handLm in result.multi_hand_landmarks :
             # print (handLm)
             mpdraw.draw_landmarks (frame, handLm, mphands.HAND_CONNECTIONS)
+            print (enumerate (handLm.landmark))
             for id, lm in enumerate (handLm.landmark) :
                 h, w, _ = frame.shape
                 cx, cy = int (lm.x * w), int (lm.y * h)
-                print (id, cx, cy)
+                # print (id, cx, cy)
                 # cv2.circle (frame, (cx, cy), 5, (0, 255, 0), cv2.FILLED)
 
                 if id == 4 : 
