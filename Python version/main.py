@@ -35,5 +35,6 @@ while True :
                     cv2.line (frame, (cx, cy), (Tx, Ty), (255, 0, 255), 5)
 
     # cv2.imshow ("rgbvideo", RGBframe)
+    cv2.flip (frame)
     cv2.imshow ("video", frame)
     cv2.waitKey (1)
