@@ -15,7 +15,9 @@ while True :
     result = Hands.process (RGBframe)
     
     if result.multi_hand_landmarks :
-        print ("hand found")
+        # print ("hand found")
+        for handLm in result.multi_hand_landmarks :
+            print (handLm)
 
     # cv2.imshow ("rgbvideo", RGBframe)
     cv2.imshow ("video", frame)
