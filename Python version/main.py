@@ -13,7 +13,9 @@ while True :
     # Convert bgr to rgb
     RGBframe = cv2.cvtColor (frame, cv2.COLOR_BGR2RGB)
     result = Hands.process (RGBframe)
-    print (result)
+    
+    if result.multi_hand_landmarks :
+        print ("hand found")
 
     # cv2.imshow ("rgbvideo", RGBframe)
     cv2.imshow ("video", frame)
