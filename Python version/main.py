@@ -18,8 +18,11 @@ while True :
         # print ("hand found")
         for handLm in result.multi_hand_landmarks :
             # print (handLm)
-            for id, landmark in enumerate (handLm.landmark) :
-                pass
+            for id, lm in enumerate (handLm.landmark) :
+                h, w, _ = frame.shape
+                cx, cy = int (lm.x * w), int (lm.y * h)
+                print (id, cx, cy)
+                cv2.circle (frame, (cx, cy), 5, (0, 255, 0), cv2.FILLED)
 
     # cv2.imshow ("rgbvideo", RGBframe)
     cv2.imshow ("video", frame)
