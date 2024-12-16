@@ -114,7 +114,7 @@ while True :
         for handLm in result.multi_hand_landmarks :
             # print (handLm)
             mpdraw.draw_landmarks (frame, handLm, mphands.HAND_CONNECTIONS)
-            is_fist (handLm.landmark)
+            print (is_fist (handLm.landmark))
             for id, lm in enumerate (handLm.landmark) :
                 h, w, _ = frame.shape
                 cx, cy = int (lm.x * w), int (lm.y * h)
