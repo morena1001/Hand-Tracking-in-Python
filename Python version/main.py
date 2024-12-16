@@ -25,10 +25,14 @@ while True :
                 print (id, cx, cy)
                 # cv2.circle (frame, (cx, cy), 5, (0, 255, 0), cv2.FILLED)
                 mpdraw.draw_landmarks (frame, handLm, mphands.HAND_CONNECTIONS)
-                
-                if id == 4 or id == 8 : 
+
+                if id == 4 : 
                     Tx, Ty = cx, cy
                     cv2.circle (frame, (Tx, Ty), 6, (255, 0, 0), cv2.FILLED)
+
+                if id == 8 : 
+                    cv2.circle (frame, (cx, cy), 6, (255, 0, 0), cv2.FILLED)
+                    cv2.line (frame, (cx, cy), (Tx, Ty), (255, 0, 255), 5)
 
     # cv2.imshow ("rgbvideo", RGBframe)
     cv2.imshow ("video", frame)
