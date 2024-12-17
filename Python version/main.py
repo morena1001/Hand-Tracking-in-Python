@@ -90,33 +90,27 @@ def is_fist (landmarks) :
     
     return True
 
-def translate_point (point) :
-    new_x = point[0] * math.cos (math.pi / 4) - point[1] * math.sin (math.pi / 4)
-    new_y = point[1] * math.cos (math.pi / 4) + point[0] * math.sin (math.pi / 4)
-    
-    print (new_x, new_y)
-
-    return [new_x, new_y]
-
 def check_quad (landmarks) :
+    f1 = lambda x : -1 * x + 1
+    f2 = lambda x : x 
     quads = [0, 0, 0, 0]
+    dead_center = 0
 
     for lm in landmarks :
-        point = translate_point ([lm.x, lm.y])
+        if lm.x >= 0.45 and lm.x <= 0.55 and lm.y >= 0.4 and lm.y <= 0.6 :
+            dead_center += 1 # Inside STOP circle
 
-        print ("WHY")
-
-        if point[0] >= 0 & point[1] <= 0 :
-            quads[3] += 1 # Bottom quadrant
-
-        elif point[0] <= 0 & point[1] >= 0 : 
+        if lm.y < f1(lm.x) and lm.y < f2(lm.x) :
             quads[2] += 1 # Top quadrant
 
-        elif point[0] <= 0 & point[1] <= 0 :
-            quads[0] += 1 # Left quadrant
+        elif lm.y > f1(lm.x) and lm.y > f2(lm.x) :
+            quads[3] += 1 # Bottom quadrant
 
-        elif point[0] >= 0 & point[1] >= 0 :
+        elif lm.y < f1(lm.x) and lm.y > f2(lm.x) :
             quads[1] += 1 # Right quadrant
+
+        elif lm.y > f1(lm.x) and lm.y < f2(lm.x) :
+            quads[0] += 1 # Left quadrant
 
     most = 0
     num = 0
@@ -127,7 +121,19 @@ def check_quad (landmarks) :
             most = i
         i += 1
 
-    return ("Left" if i == 0 else ("Right" if i == 1 else ("Top" if i == 2 else ("Down" if i == 3 else ""))))
+    return most if most >= dead_center else -1
+
+def is_in_middle (landmarks) :
+    inside = 0
+    outside = 0
+    
+    for lm in landmarks :
+        if lm.x >= 0.36 and lm.x <= 0.64 and lm.y >= 0.28 and lm.y <= 0.72 :
+            inside += 1
+        else : 
+            outside += 1
+
+    return True if inside >= outside else False
 
 
 
@@ -140,6 +146,9 @@ mphands = mp.solutions.hands
 mpdraw = mp.solutions.drawing_utils
 Hands = mphands.Hands (max_num_hands = 1, min_detection_confidence = 0.7, min_tracking_confidence = 0.6)
 
+action_taken = False
+dir = -1
+
 while True :
     success, frame = vid.read ()
 
@@ -150,39 +159,42 @@ while True :
     h = math.floor (frame.shape[0] * 0.5)
     w = math.floor (frame.shape[1] * 0.5)
 
-    # cv2.circle (frame, (5, 5), 10, (0, 0, 255), cv2.FILLED)
-    # cv2.circle (frame, (frame.shape[1] - 5, 5), 10, (0, 255, 255), cv2.FILLED)
-    # cv2.circle (frame, (frame.shape[1] - 5, frame.shape[0] - 5), 10, (255, 0, 255), cv2.FILLED)
-    # cv2.circle (frame, (5, frame.shape[0] - 5), 10, (255, 255, 0), cv2.FILLED)
-    cv2.circle (frame, (w, h), 10, (255, 255, 0), cv2.FILLED)
-    cv2.line (frame, (0, 0), (frame.shape[1], frame.shape[0]), (255, 0, 0), 5)
-    cv2.line (frame, (0, frame.shape[0]), (frame.shape[1], 0), (255, 0, 0), 5)
+    cv2.circle (frame, (w, h), 125, (255, 255, 0))
+
+    # cv2.line (frame, (0, 0), (frame.shape[1], frame.shape[0]), (255, 255, 0))
+    cv2.line (frame, (0, 0), (371, 210), (255, 255, 0))
+    cv2.line (frame, (589, 334), (frame.shape[1], frame.shape[0]), (255, 255, 0))
+
+    # cv2.line (frame, (0, frame.shape[0]), (frame.shape[1], 0), (255, 255, 0))
+    cv2.line (frame, (0, frame.shape[0]), (371, 333), (255, 255, 0))
+    cv2.line (frame, (589, 211), (frame.shape[1], 0), (255, 255, 0))
     
     if result.multi_hand_landmarks :
         for handLm in result.multi_hand_landmarks :
             mpdraw.draw_landmarks (frame, handLm, mphands.HAND_CONNECTIONS)
 
-            # print (check_quad (handLm.landmark))
+            fist = is_fist (handLm.landmark)
+            if not action_taken :
+                dir = check_quad (handLm.landmark)
+                action_taken = True
             
-            # if (is_fist (handLm.landmark)) :
-            #     print (True)
+            if fist :
+                centered = is_in_middle (handLm.landmark)
 
+                if centered :
+                    dir = -1
+                    action_taken = False
+                    
+                else :
+                    if dir == 0 or dir == 4 :
+                        dir = 4
+                    elif dir == 1 or dir == 5 :
+                        dir = 5
+                    else :
+                        dir = -1
 
-            # for id, lm in enumerate (handLm.landmark) :
-            #     h, w, _ = frame.shape
-            #     cx, cy = int (lm.x * w), int (lm.y * h)
-                # print (id, cx, cy)
-                # cv2.circle (frame, (cx, cy), 5, (0, 255, 0), cv2.FILLED)
+            print ("Strafe Left" if dir == 0 else ("Strafe Right" if dir == 1 else ("Forward" if dir == 2 else ("Backward" if dir == 3 else ("Rotate Left" if dir == 4 else ("Rotate Right" if dir == 5 else "STOP"))))))
 
-                # if id == 4 : 
-                #     Tx, Ty = cx, cy
-                #     cv2.circle (frame, (Tx, Ty), 6, (255, 0, 0), cv2.FILLED)
-
-                # if id == 8 : 
-                #     cv2.circle (frame, (cx, cy), 6, (255, 0, 0), cv2.FILLED)
-                #     cv2.line (frame, (cx, cy), (Tx, Ty), (255, 0, 255), 5)
-
-    # cv2.imshow ("rgbvideo", RGBframe)
     frame = cv2.flip (frame, 1)
     cv2.imshow ("video", frame)
     cv2.waitKey (1)
