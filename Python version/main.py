@@ -1,7 +1,9 @@
 import math
+import time
 
 import cv2
 import mediapipe as mp
+import serial
 
 def distance (point1, point2) :
     return math.sqrt (math.pow (point1[0] - point2[0], 2) + math.pow(point1[1] - point2[1], 2))
@@ -139,6 +141,7 @@ def is_in_middle (landmarks) :
 
 
 
+ser = serial.Serial ('COM5', 9600)
 vid = cv2.VideoCapture (0) # 1 for external webcam
 vid.set(3, 960)
 
@@ -194,7 +197,12 @@ while True :
                         dir = -1
 
             print ("Strafe Left" if dir == 0 else ("Strafe Right" if dir == 1 else ("Forward" if dir == 2 else ("Backward" if dir == 3 else ("Rotate Left" if dir == 4 else ("Rotate Right" if dir == 5 else "STOP"))))))
+            command = b'a' if dir == 0 else (b'd' if dir == 1 else (b'w' if dir == 2 else (b's' if dir == 3 else (b'q' if dir == 4 else (b'e' if dir == 5 else b'f')))))
+            ser.write (command)
+
 
     frame = cv2.flip (frame, 1)
     cv2.imshow ("video", frame)
     cv2.waitKey (1)
+
+ser.close ()
